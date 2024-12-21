@@ -17,7 +17,7 @@ export async function GET(request: Request): Promise<Response> {
     const query = url.searchParams.get("query");
     const page = parseInt(url.searchParams.get("page") ?? "1") ?? 1;
 
-    const data = await searchAdvocates({ query: query ?? null, page });
+    const data = await searchAdvocates({ query, page });
 
     return Response.json({ data });
   } catch (err) {

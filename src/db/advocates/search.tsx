@@ -33,8 +33,9 @@ export async function searchAdvocates({
   const data = await db
     .select()
     .from(advocates)
+    .orderBy(asc(advocates.lastName))
     .limit(PAGE_SIZE)
-    .offest((page - 1) * PAGE_SIZE);
+    .offset((page - 1) * PAGE_SIZE);
 
   return data;
 }
