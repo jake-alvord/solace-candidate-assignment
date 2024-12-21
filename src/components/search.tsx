@@ -14,7 +14,7 @@ export function Search() {
     const params = new URLSearchParams(searchParams);
 
     if (term) {
-      params.set("query", term);
+      params.set("query", term.toLowerCase());
     } else {
       params.delete("query");
       params.set("page", "1");
@@ -47,7 +47,10 @@ export function Search() {
           </p>
           <p
             className="text-xs cursor-pointer underline"
-            onClick={() => handleSearch("")}
+            onClick={() => {
+              setTemporaryTerm("");
+              handleSearch("");
+            }}
           >
             Reset Search
           </p>

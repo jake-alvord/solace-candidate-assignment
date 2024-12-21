@@ -13,6 +13,16 @@ export async function Table({
 }) {
   const advocates = await fetchFilteredAdvocates({ query, currentPage });
 
+  function maskPhoneNumber(phoneNumber: number) {
+    const cleaned = phoneNumber.toString().replace(/\D/g, "");
+
+    if (cleaned.length === 10) {
+      return `(${cleaned.slice(0, 3)}) ${cleaned.slice(3, 6)}-${cleaned.slice(6)}`;
+    }
+
+    return phoneNumber;
+  }
+
   if (!advocates?.length) {
     return (
       <div>
@@ -31,7 +41,7 @@ export async function Table({
               {advocate.firstName} {advocate.lastName}, {advocate.degree}
             </p>
             <p className="text-sm">
-              {advocate.city} | {advocate.phoneNumber}
+              {advocate.city} | {maskPhoneNumber(advocate.phoneNumber)}
             </p>
             <p className="text-sm">
               {advocate.yearsOfExperience} year
