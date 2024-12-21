@@ -1,12 +1,26 @@
-import db from "../../../db";
-import { advocates } from "../../../db/schema";
-import { advocateData } from "../../../db/seed/advocates";
+import { searchAdvocates } from "@/db/advocates/search";
 
-export async function GET() {
-  // Uncomment this line to use a database
-  // const data = await db.select().from(advocates);
+export interface Advocate {
+  firstName: string;
+  lastName: string;
+  city: string;
+  degree: string;
+  specialties: string[];
+  yearsOfExperience: number;
+  phoneNumber: number;
+}
 
-  const data = advocateData;
+export async function GET(request: Request): Promise<Response> {
+  try {
+    const url = new URL(request.url);
 
-  return Response.json({ data });
+    const query = url.searchParams.get("query");
+    const page = parseInt(url.searchParams.get("page") ?? "1") ?? 1;
+
+    const data = await searchAdvocates({ query, page });
+
+    return Response.json({ data });
+  } catch (err) {
+    return Response.json({ message: "something went wrong" });
+  }
 }
