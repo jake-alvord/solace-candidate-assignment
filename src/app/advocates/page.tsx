@@ -1,4 +1,6 @@
+import { Suspense } from "react";
 import { Search } from "@/components/search";
+import { Table } from "./components/table";
 
 export default async function Advocates(props: {
   searchParams?: Promise<{
@@ -16,6 +18,12 @@ export default async function Advocates(props: {
         <p className="text-xl pb-2">Search</p>
         <Search />
       </div>
+      <Suspense
+        key={query + currentPage}
+        fallback={<p className="text-xl py-4">Loading...</p>}
+      >
+        <Table query={query} currentPage={currentPage} />
+      </Suspense>
     </div>
   );
 }
